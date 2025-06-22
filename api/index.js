@@ -77,12 +77,13 @@ async function start() {
     }
   });
 
-  // 3.4 GET /api/artisans avec filtres dynamiques
+  // 3.4 GET /api/artisans avec filtres dynamiques + top + limit
   app.get("/api/artisans", async (req, res) => {
     try {
-      const { search, noteMin, ville, categorieId } = req.query;
+      const { search, noteMin, ville, categorieId, top, limit } = req.query;
       const clauses = [];
       const repl = {};
+
       if (search) {
         clauses.push(`a.nom LIKE :search`);
         repl.search = `%${search}%`;
@@ -99,9 +100,12 @@ async function start() {
         clauses.push(`c.id = :categorieId`);
         repl.categorieId = parseInt(categorieId, 10);
       }
+      if (top === "true") {
+        clauses.push(`a.top = true`);
+      }
+
       const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
-      const [results] = await sequelize.query(
-        `
+      const sql = `
         SELECT
           a.id, a.nom, a.note, a.photo_profil, a.ville,
           s.nom AS specialite,
@@ -110,10 +114,12 @@ async function start() {
         JOIN specialite s ON a.specialite_id = s.id
         JOIN categorie c ON s.categorie_id = c.id
         ${where}
-        LIMIT 100;
-        `,
-        { replacements: repl }
-      );
+        ORDER BY a.nom
+        LIMIT :limit
+      `;
+      repl.limit = parseInt(limit, 10) || 100;
+
+      const [results] = await sequelize.query(sql, { replacements: repl });
       res.json(results);
     } catch (err) {
       console.error("Erreur /api/artisans :", err);
@@ -184,16 +190,8 @@ async function start() {
           !process.env.SMTP_PASS
         ) {
           const testAccount = await nodemailer.createTestAccount();
-          transporter = nodemailer.createTransport({
-            host: testAccount.smtp.host,
-            port: testAccount.smtp.port,
-            secure: testAccount.smtp.secure,
-            auth: {
-              user: testAccount.user,
-              pass: testAccount.pass,
-            },
-          });
-          console.log("⚠️  Using Ethereal test account:", testAccount);
+          transporter = nodemailer.createTransport(testAccount.smtp);
+          console.log("⚠️ Using Ethereal account:", testAccount);
         } else {
           transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -215,9 +213,8 @@ async function start() {
         });
 
         console.log("Message envoyé :", info.messageId);
-        if (nodemailer.getTestMessageUrl(info)) {
-          console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
-        }
+        const previewUrl = nodemailer.getTestMessageUrl(info);
+        if (previewUrl) console.log("Preview URL:", previewUrl);
 
         res
           .status(201)

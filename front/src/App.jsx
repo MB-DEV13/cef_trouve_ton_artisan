@@ -10,7 +10,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
-      <main className="container my-4">
+      <main className="container mt-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/artisans" element={<ListArtisans />} />
