@@ -6,7 +6,7 @@ import ListArtisans from "./pages/ListArtisans";
 import DetailArtisan from "./pages/DetailArtisan";
 import NotFound from "./pages/NotFound";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <Header />
@@ -22,5 +22,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;
