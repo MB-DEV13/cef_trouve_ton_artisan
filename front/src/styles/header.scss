@@ -1,0 +1,160 @@
+// src/styles/header.scss
+
+$primary: #0074c7;
+$secondary: #384050;
+$bg: #fff;
+$shadow: rgba(0, 0, 0, 0.1);
+
+.site-header {
+  background: $bg;
+  box-shadow: 0 2px 4px $shadow;
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "logo . search"
+      "logo . nav";
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+  }
+
+  .logo {
+    grid-area: logo;
+    img {
+      height: 60px;
+      display: block;
+    }
+  }
+
+  .search-form {
+    grid-area: search;
+    display: flex;
+    justify-self: end;
+    align-items: center;
+
+    input {
+      border: 2px solid $primary;
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      max-width: 250px;
+    }
+    button {
+      margin-left: 0.5rem;
+      background: $primary;
+      border: none;
+      color: #fff;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+    }
+
+    &.desktop {
+      @media (max-width: 1000px) {
+        display: none !important;
+      }
+    }
+  }
+
+  .burger-btn {
+    grid-area: nav; // burger à la place du menu en desktop
+    justify-self: end;
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: $secondary;
+    cursor: pointer;
+    z-index: 200;
+
+    @media (max-width: 1000px) {
+      display: block !important;
+    }
+  }
+
+  .nav-links {
+    grid-area: nav;
+    display: flex;
+    justify-self: end;
+    gap: 1rem;
+    z-index: 100;
+
+    .nav-link {
+      color: $secondary;
+      text-decoration: none;
+      font-size: 1rem;
+      &:hover {
+        color: $primary;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: $bg;
+      flex-direction: column;
+      width: 200px;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 4px $shadow;
+      display: none;
+
+      &.open {
+        display: flex !important;
+      }
+    }
+  }
+}
+
+/* recherche mobile */
+.mobile-search {
+  display: none;
+  max-width: 1200px;
+  margin: 0.5rem auto 1rem;
+  padding: 0 1rem;
+
+  form {
+    display: flex;
+    gap: 0.5rem;
+  }
+  input {
+    flex: 1;
+    border: 2px solid $primary;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+  }
+  button {
+    background: $primary;
+    border: none;
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 1000px) {
+    display: block !important;
+  }
+}
+
+/* <<< AJOUT MEDIA QUERY POUR RÉORDONNER LA GRILLE EN MOBILE >>> */
+@media (max-width: 1000px) {
+  .site-header {
+    .header-inner {
+      grid-template-columns: auto auto;
+      grid-template-rows:
+        auto /* logo + burger */
+        auto /* search */
+        auto; /* nav */
+      grid-template-areas:
+        "logo burger"
+        "search search"
+        "nav    nav";
+    }
+  }
+}
