@@ -1,0 +1,134 @@
+// src/styles/footer.scss
+.site-footer {
+  position: relative;
+  background: #0074c7;
+  color: white;
+  padding-top: 6rem; // espace pour descendre logo
+  padding-bottom: 1.5rem;
+  overflow: hidden;
+
+  // bulle blanche arrondie
+  .footer-bubble {
+    position: absolute;
+    top: -3rem;
+    left: 18rem;
+    right: 18rem;
+    height: 6rem;
+    background: white;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+
+    @media (max-width: 36rem) {
+      left: 0 !important;
+      right: 0 !important;
+    }
+  }
+
+  // logo + flèche
+  .footer-logo {
+    position: absolute;
+    top: 4rem;
+    left: 20rem;
+    img {
+      width: auto;
+      height: 3rem;
+      margin-top: 1.5rem;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: -1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 1rem solid transparent;
+      border-right: 1rem solid transparent;
+      border-top: 1rem solid white;
+    }
+
+    // centrage pour tablette/mobile
+    @media (max-width: 768px) {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  // adresse centrée sous le logo à partir de 1380px
+  .footer-main {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+
+    .footer-address {
+      max-width: 60%;
+      text-align: center;
+      line-height: 1.4;
+
+      h5 {
+        margin: 0 0 0.5rem;
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+      }
+      p {
+        margin: 0.2rem 0;
+        font-size: 0.875rem;
+      }
+      .footer-phone {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  // à partir de 1380px on superpose l’adresse sous le logo
+  @media (max-width: 1380px) {
+    .footer-main {
+      flex-direction: column;
+      align-items: center;
+      .footer-address {
+        margin-top: 4rem;
+      }
+    }
+    .footer-separator {
+      margin: 0 2rem 1rem;
+    }
+  }
+
+  // séparateur 100% opaque
+  .footer-separator {
+    height: 1px;
+    background-color: #fff !important;
+    opacity: 1 !important;
+    margin: 0 10rem 1rem;
+  }
+
+  // liens
+  .footer-links {
+    ul {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      a {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.85rem;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  // réactivité mobile
+  @media (max-width: 768px) {
+    .footer-separator {
+      margin: 0 1rem 1rem;
+    }
+  }
+}
