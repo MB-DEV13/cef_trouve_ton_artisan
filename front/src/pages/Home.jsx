@@ -1,12 +1,11 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import ArtisanCard from "../components/ArtisanCard";
 import "../styles/home.scss";
 
 export default function Home() {
   const [topArtisans, setTopArtisans] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -27,9 +26,9 @@ export default function Home() {
       {/* Comment trouver mon artisan ? */}
       <section className="steps-section py-5">
         <div className="container">
-          <h1 className="section-title text-center mb-5">
+          <h2 className="section-title text-start mb-4">
             Comment trouver mon artisan ?
-          </h1>
+          </h2>
           <div className="row align-items-center">
             <div className="col-lg-6">
               <div className="d-grid gap-3">
@@ -52,34 +51,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Artisans du mois : plein écran */}
-      <section className="top-section">
-        <div className="container">
-          <h2 className="section-title mb-4 text-start">Artisans du mois :</h2>
-          <div className="row g-4">
-            {topArtisans.map((a) => (
-              <div key={a.id} className="col-md-4">
-                <div
-                  className="card top-card h-100"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigate(`/artisans/${a.id}`)}
-                >
-                  <div className="card-body d-flex flex-column">
-                    <div className="d-flex justify-content-between mb-2">
-                      <h5 className="card-title mb-0">{a.nom}</h5>
-                      <small className="text-muted">{a.specialite}</small>
-                    </div>
-                    <div className="rating mb-2">
-                      {"★".repeat(Math.floor(a.note))}
-                      {a.note % 1 >= 0.5 ? "½" : ""}
-                    </div>
-                    <p className="card-text mt-auto">
-                      <small className="text-muted">{a.ville}</small>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+      {/* Artisans du mois */}
+      <section className="top-section py-5 bg-white">
+        <div className="container-fluid px-0">
+          <div className="container">
+            <h2 className="section-title mb-4 text-start">
+              Artisans du mois :
+            </h2>
+            <div className="cards-block row g-4">
+              {topArtisans.map((a) => (
+                <ArtisanCard
+                  key={a.id}
+                  id={a.id}
+                  nom={a.nom}
+                  specialite={a.specialite}
+                  note={a.note}
+                  ville={a.ville}
+                  photo={a.photo_profil}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

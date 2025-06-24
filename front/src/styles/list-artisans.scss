@@ -1,0 +1,77 @@
+// couleurs
+$primary: #0074c7;
+$secondary: #384050;
+
+// wrapper full-width blanc pour filtres & cartes
+.filters-block,
+.filters-card {
+  width: 100%;
+  background: white;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+// section globale (fond gris)
+.list-section {
+  background: #f1f8fc;
+  padding-bottom: 0; // cards-block descend jusqu’au footer
+}
+
+// --- FILTRES ---
+.filters-card {
+  background: white;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  .row.g-2.mb-3,
+  .row.g-2.align-items-center {
+    display: flex;
+    gap: 1rem;
+
+    > div {
+      flex: 1;
+      &.col-auto {
+        flex: 1;
+      }
+    }
+  }
+
+  .form-control,
+  .form-select {
+    width: 100%;
+    border: 2px solid $primary;
+    border-radius: 0.5rem;
+  }
+  .btn {
+    width: 100%;
+  }
+  .btn-primary {
+    background: $primary;
+    border-color: $primary;
+  }
+  .btn-secondary {
+    background: $secondary;
+    border-color: $secondary;
+  }
+}
+
+// --- CARTES ---
+// full-width blanc derrière les cards
+.cards-block {
+  position: relative;
+  padding: 2rem 0 0 0;
+  margin-bottom: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 100%;
+    background: white;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+}
