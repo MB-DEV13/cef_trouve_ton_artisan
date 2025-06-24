@@ -1,0 +1,50 @@
+// src/styles/notfound.scss
+
+// On sort totalement du container principal pour occuper tout l'écran
+.notfound-container {
+  position: relative;
+  margin-top: -1.3rem !important;
+  width: 100vw; // pleine largeur
+  margin-left: calc(-50vw + 50%); // centré en dépassant le container
+  margin-right: calc(-50vw + 50%);
+  background: #fff; // fond blanc
+}
+
+// Intérieur centré à max-width de vos pages
+.notfound-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+// Illustration
+.notfound-illustration {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin-bottom: 2rem;
+}
+
+// Titre
+.notfound-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #384050;
+  margin-bottom: 1rem;
+}
+
+// Texte
+.notfound-text {
+  color: #384050;
+  margin-bottom: 2rem;
+}
+
+// Bouton
+.notfound-button {
+  --bs-btn-padding-y: 0.5rem;
+  --bs-btn-padding-x: 2rem;
+  background: #0074c7;
+  border-color: #0074c7;
+  color: #fff;
+}
