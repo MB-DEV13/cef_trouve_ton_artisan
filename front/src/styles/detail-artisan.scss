@@ -1,0 +1,113 @@
+// src/styles/detail-artisan.scss
+
+// couleurs
+$primary: #0074c7;
+$secondary: #384050;
+$bg-page: #f1f8fc;
+
+.detail-artisan {
+  background: $bg-page;
+  padding: 0; // on supprime tout espacement vertical global
+
+  .detail-card {
+    position: relative;
+
+    // 1) largeur plein écran
+    width: 100vw;
+    // 2) marge négative pour recentrer parfaitement
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    // 3) fond blanc
+    background: #fff;
+  }
+
+  .detail-inner {
+    // conteneur centré classique
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .detail-info {
+    .name {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: $secondary;
+      margin-bottom: 0.5rem;
+    }
+    .stars i {
+      color: $primary;
+      font-size: 1.25rem;
+      margin-right: 0.25rem;
+    }
+    .meta {
+      color: $secondary;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      a {
+        color: $primary;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    h5 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: $secondary;
+      font-weight: 600;
+    }
+  }
+
+  .detail-form {
+    .photo img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+    }
+    .leave-note {
+      p {
+        margin: 0 0 0.25rem;
+        color: $secondary;
+        font-weight: 500;
+      }
+      .stars i {
+        color: $primary;
+        font-size: 1.3rem;
+        margin-right: 0.25rem;
+      }
+    }
+    h5 {
+      color: $secondary;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    form {
+      .form-control {
+        border: 2px solid $primary;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+      }
+      textarea.form-control {
+        resize: vertical;
+      }
+      .btn {
+        min-width: 140px;
+        border-radius: 0.25rem;
+      }
+      .btn-primary {
+        background: $primary;
+        border-color: $primary;
+      }
+      .btn-secondary {
+        background: $secondary;
+        border-color: $secondary;
+      }
+      .status {
+        color: $primary;
+        margin-top: 1rem;
+        font-style: italic;
+      }
+    }
+  }
+}
