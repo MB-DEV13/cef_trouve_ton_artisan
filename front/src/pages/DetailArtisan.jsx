@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import RatingStars from "../components/RatingStars";
 import "../styles/detail-artisan.scss";
 
 export default function DetailArtisan() {
@@ -10,6 +11,7 @@ export default function DetailArtisan() {
   const [artisan, setArtisan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
+  const [userRating, setUserRating] = useState(0);
   const [form, setForm] = useState({
     nom: "",
     email: "",
@@ -17,16 +19,32 @@ export default function DetailArtisan() {
     message: "",
   });
 
+  // 1) Charger l’artisan
   useEffect(() => {
     api
       .get(`/artisans/${id}`)
       .then((res) => {
         setArtisan(res.data);
-        setLoading(false);
+        setUserRating(res.data.note || 0);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, [id]);
 
+  // 2) Envoyer une nouvelle note
+  function handleRate(value) {
+    api
+      .post(`/artisans/${id}/rating`, { note: value })
+      .then((res) => {
+        if (res.data.newAverage != null) {
+          setArtisan((a) => ({ ...a, note: res.data.newAverage }));
+        }
+        setUserRating(value);
+      })
+      .catch(() => {});
+  }
+
+  // 3) Gestion du formulaire
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
@@ -46,8 +64,8 @@ export default function DetailArtisan() {
 
   return (
     <div className="detail-artisan">
+      {/* --- INFOS + PHOTO + NOTE --- */}
       <div className="detail-card">
-        {/* Ce pseudo-élément fera le fond blanc plein largeur */}
         <div className="detail-inner container">
           <div className="row g-4">
             {/* Colonne gauche */}
@@ -70,6 +88,9 @@ export default function DetailArtisan() {
                     />
                   );
                 })}
+                <span className="average ms-2">
+                  {(Math.round(artisan.note * 10) / 10).toFixed(1)}
+                </span>
               </div>
               <p className="meta">
                 <strong>Spécialité :</strong> {artisan.specialite}
@@ -80,7 +101,11 @@ export default function DetailArtisan() {
               {artisan.site_web && (
                 <p className="meta">
                   <strong>Site web :</strong>{" "}
-                  <a href={artisan.site_web} target="_blank" rel="noopener">
+                  <a
+                    href={artisan.site_web}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {artisan.site_web}
                   </a>
                 </p>
@@ -88,10 +113,11 @@ export default function DetailArtisan() {
               <h5>À propos</h5>
               <p>{artisan.a_propos}</p>
             </div>
+
             {/* Colonne droite */}
-            <div className="col-lg-6 detail-form">
+            <div className="col-lg-6 text-center">
               {artisan.photo_profil && (
-                <div className="photo mb-3 text-center">
+                <div className="photo mb-3">
                   <img
                     src={artisan.photo_profil}
                     alt={artisan.nom}
@@ -99,19 +125,29 @@ export default function DetailArtisan() {
                   />
                 </div>
               )}
-              <div className="leave-note mb-4 text-center">
+              <div className="leave-note mb-4">
                 <p>Laissez une note :</p>
-                <div className="stars">
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <i key={i} className="bi bi-star" />
-                  ))}
-                </div>
+                <RatingStars initialRating={userRating} onRate={handleRate} />
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <h5>Contactez cet artisan</h5>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
+      {/* --- FORMULAIRE PLEIN ÉCRAN --- */}
+      <div className="form-card-wrapper">
+        <div className="form-card">
+          <div className="container">
+            <h5>Contactez cet artisan</h5>
+            <form onSubmit={handleSubmit}>
+              {/* Votre nom */}
+              <div className="row mb-3 align-items-center">
+                <label htmlFor="nom" className="col-md-4 col-form-label">
+                  Votre nom :
+                </label>
+                <div className="col-md-8">
                   <input
+                    id="nom"
                     name="nom"
                     value={form.nom}
                     onChange={handleChange}
@@ -120,8 +156,16 @@ export default function DetailArtisan() {
                     required
                   />
                 </div>
-                <div className="mb-3">
+              </div>
+
+              {/* Votre email */}
+              <div className="row mb-3 align-items-center">
+                <label htmlFor="email" className="col-md-4 col-form-label">
+                  Votre email :
+                </label>
+                <div className="col-md-8">
                   <input
+                    id="email"
                     name="email"
                     type="email"
                     value={form.email}
@@ -131,8 +175,16 @@ export default function DetailArtisan() {
                     required
                   />
                 </div>
-                <div className="mb-3">
+              </div>
+
+              {/* Objet */}
+              <div className="row mb-3 align-items-center">
+                <label htmlFor="objet" className="col-md-4 col-form-label">
+                  Objet :
+                </label>
+                <div className="col-md-8">
                   <input
+                    id="objet"
                     name="objet"
                     value={form.objet}
                     onChange={handleChange}
@@ -141,8 +193,16 @@ export default function DetailArtisan() {
                     required
                   />
                 </div>
-                <div className="mb-3">
+              </div>
+
+              {/* Message */}
+              <div className="row mb-4">
+                <label htmlFor="message" className="col-md-4 col-form-label">
+                  Votre message :
+                </label>
+                <div className="col-md-8">
                   <textarea
+                    id="message"
                     name="message"
                     rows="5"
                     value={form.message}
@@ -152,7 +212,12 @@ export default function DetailArtisan() {
                     required
                   />
                 </div>
-                <div className="d-flex justify-content-between mt-4">
+              </div>
+
+              {/* Boutons */}
+              <div className="row">
+                <div className="col-md-4" />
+                <div className="col-md-8 d-flex justify-content-between">
                   <button
                     type="button"
                     className="btn btn-secondary"
@@ -164,9 +229,10 @@ export default function DetailArtisan() {
                     Envoyer ma demande <i className="bi bi-send ms-1" />
                   </button>
                 </div>
-                {status && <p className="status mt-3">{status}</p>}
-              </form>
-            </div>
+              </div>
+
+              {status && <p className="status mt-3">{status}</p>}
+            </form>
           </div>
         </div>
       </div>

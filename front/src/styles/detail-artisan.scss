@@ -7,27 +7,21 @@ $bg-page: #f1f8fc;
 
 .detail-artisan {
   background: $bg-page;
-  padding: 0; // on supprime tout espacement vertical global
+  padding: 0;
 
+  // Infos + photo + note (fond gris)
   .detail-card {
-    position: relative;
-
-    // 1) largeur plein écran
     width: 100vw;
-    // 2) marge négative pour recentrer parfaitement
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
-    // 3) fond blanc
-    background: #fff;
+    background: transparent;
+    padding: 2rem 0 0;
   }
-
   .detail-inner {
-    // conteneur centré classique
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0 1rem;
   }
-
   .detail-info {
     .name {
       font-size: 1.75rem;
@@ -35,10 +29,18 @@ $bg-page: #f1f8fc;
       color: $secondary;
       margin-bottom: 0.5rem;
     }
-    .stars i {
-      color: $primary;
-      font-size: 1.25rem;
-      margin-right: 0.25rem;
+    .stars {
+      display: flex;
+      align-items: center;
+      i {
+        color: $primary;
+        font-size: 1.25rem;
+        margin-right: 0.25rem;
+      }
+      .average {
+        color: $secondary;
+        font-weight: 500;
+      }
     }
     .meta {
       color: $secondary;
@@ -58,30 +60,55 @@ $bg-page: #f1f8fc;
       font-weight: 600;
     }
   }
+  .photo img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+  .leave-note {
+    p {
+      margin: 0 0 0.25rem;
+      color: $secondary;
+      font-weight: 500;
+    }
+    .rating-stars i {
+      color: $primary;
+      font-size: 1.5rem;
+      margin: 0 0.1rem;
+      cursor: pointer;
+      transition: transform 0.1s;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 
-  .detail-form {
-    .photo img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-    }
-    .leave-note {
-      p {
-        margin: 0 0 0.25rem;
-        color: $secondary;
-        font-weight: 500;
-      }
-      .stars i {
-        color: $primary;
-        font-size: 1.3rem;
-        margin-right: 0.25rem;
-      }
-    }
+  // ------------------------------------------------
+  // FORMULAIRE : FOND BLANC PLEIN ÉCRAN
+  // ------------------------------------------------
+  .form-card-wrapper {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    background: #fff;
+    padding: 2rem 0; // espace vertical autour du form
+    box-sizing: border-box;
+
+    // si tu veux un arrondi en haut seulement :
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .form-card {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+
     h5 {
       color: $secondary;
       font-weight: 600;
       margin-bottom: 1rem;
     }
+
     form {
       .form-control {
         border: 2px solid $primary;
@@ -90,6 +117,10 @@ $bg-page: #f1f8fc;
       }
       textarea.form-control {
         resize: vertical;
+      }
+      .d-flex {
+        gap: 1rem;
+        flex-wrap: wrap;
       }
       .btn {
         min-width: 140px;
