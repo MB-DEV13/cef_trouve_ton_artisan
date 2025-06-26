@@ -6,6 +6,7 @@ $bg: #fff;
 $shadow: rgba(0, 0, 0, 0.1);
 
 .site-header {
+  position: relative; // ← nécessaire pour les nav-links en absolute
   background: $bg;
   box-shadow: 0 2px 4px $shadow;
 
@@ -62,7 +63,8 @@ $shadow: rgba(0, 0, 0, 0.1);
   }
 
   .burger-btn {
-    grid-area: nav; // burger à la place du menu en desktop
+    grid-area: burger; // ← passe de "nav" à "burger"
+    align-self: center; // ← centre verticalement
     justify-self: end;
     display: none;
     background: none;
@@ -94,9 +96,9 @@ $shadow: rgba(0, 0, 0, 0.1);
     }
 
     @media (max-width: 1000px) {
-      position: absolute;
-      top: 100%;
-      right: 0;
+      position: absolute; // ← positionnement direct
+      top: 3.5rem; // ← juste sous le header
+      right: 1.5rem;
       background: $bg;
       flex-direction: column;
       width: 200px;
@@ -142,7 +144,7 @@ $shadow: rgba(0, 0, 0, 0.1);
   }
 }
 
-/* <<< AJOUT MEDIA QUERY POUR RÉORDONNER LA GRILLE EN MOBILE >>> */
+/* RÉORDONNEMENT EN MOBILE (<1000px) */
 @media (max-width: 1000px) {
   .site-header {
     .header-inner {
