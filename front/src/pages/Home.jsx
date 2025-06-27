@@ -1,8 +1,9 @@
-// src/pages/Home.jsx
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import ArtisanCard from "../components/ArtisanCard";
 import "../styles/home.scss";
+
+//Affiche les 3 artisans “du mois”
 
 export default function Home() {
   const [topArtisans, setTopArtisans] = useState([]);
@@ -10,8 +11,13 @@ export default function Home() {
   useEffect(() => {
     api
       .get("/artisans", { params: { top: true } })
-      .then((res) => setTopArtisans(res.data.slice(0, 3)))
-      .catch(console.error);
+      .then((res) => {
+        setTopArtisans(Array.isArray(res.data) ? res.data.slice(0, 3) : []);
+      })
+      .catch((err) => {
+        console.error("Erreur lors du chargement des artisans du mois :", err);
+        setTopArtisans([]);
+      });
   }, []);
 
   const steps = [
@@ -23,13 +29,15 @@ export default function Home() {
 
   return (
     <>
-      {/* Comment trouver mon artisan ? */}
+      {/* ---- Section “Comment ça marche” ---- */}
+
       <section className="steps-section py-5">
         <div className="container">
-          <h2 className="section-title text-start mb-4">
+          <h1 className="section-title text-start mb-5 underline-green">
             Comment trouver mon artisan ?
-          </h2>
+          </h1>
           <div className="row align-items-center">
+            {/* Liste des étapes */}
             <div className="col-lg-6">
               <div className="d-grid gap-3">
                 {steps.map((s) => (
@@ -40,6 +48,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
+            {/* Illustration */}
             <div className="col-lg-6 text-center">
               <img
                 src="/img/home-illustration.png"
@@ -51,13 +60,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Artisans du mois */}
+      {/* ----  Section “Artisans du mois”  ---- */}
+
       <section className="top-section py-5 bg-white">
         <div className="container-fluid px-0">
           <div className="container">
-            <h2 className="section-title mb-4 text-start">
+            <h2 className="section-title text-start underline-red">
               Artisans du mois :
             </h2>
+
+            {/* Liste des cartes */}
             <div className="cards-block row g-4">
               {topArtisans.map((a) => (
                 <ArtisanCard

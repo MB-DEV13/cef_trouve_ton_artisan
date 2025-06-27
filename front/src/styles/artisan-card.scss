@@ -1,7 +1,12 @@
-// src/styles/artisan-card.scss
+$card-border: #0074c7;
+$secondary: #384050;
+$shadow: rgba(56, 64, 80, 0.25);
+
+// —————————————————————————————————————————————————————————————
+// ArtisanCard Styles
 
 .artisan-card {
-  border: 2px solid #0074c7 !important; /* contour bleu */
+  border: 2px solid $card-border !important;
   border-radius: 0.5rem;
   background: white;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -9,7 +14,7 @@
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(56, 64, 80, 0.25); /* gris tirant sur le bleu sombre */
+    box-shadow: 0 4px 12px $shadow;
   }
 
   .card-body {
@@ -19,20 +24,19 @@
     flex-direction: column;
   }
 
-  /* Spécialité en haut à droite */
+  // Spécialité en haut à droite
   .speciality {
     position: absolute;
     top: 1rem;
     right: 1rem;
     font-size: 0.85rem;
-    color: #384050; /* couleur secondaire */
+    color: $secondary;
     font-weight: 500;
   }
 
-  /* Image sous la spécialité, alignée à droite si présente */
+  // Photo de profil alignée bas-droite
   .profile-img {
     position: absolute;
-    /* on descend l’image pour aligner son bas avec le texte ville */
     bottom: 1.25rem;
     right: 1rem;
     width: 3.5rem;
@@ -47,26 +51,27 @@
     }
   }
 
-  /* Titre */
+  // Nom de l’artisan
   .card-title {
     margin: 0;
-    font-weight: 500; /* bold plus fin */
-    color: #384050; /* couleur secondaire */
+    font-weight: 500;
+    color: $secondary;
     text-align: left;
   }
 
-  /* Note en étoiles */
+  // Note étoilée
   .rating {
-    color: #0074c7; /* couleur primaire */
+    color: $card-border;
     font-size: 1.2rem;
     text-align: left;
     margin: 0.5rem 0;
+
     i {
       margin: 0 0.1rem;
     }
   }
 
-  /* Ville */
+  // Ville
   p {
     margin: 0;
     font-size: 0.9rem;

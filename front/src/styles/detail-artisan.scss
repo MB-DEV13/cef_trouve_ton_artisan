@@ -1,6 +1,4 @@
-// src/styles/detail-artisan.scss
-
-// couleurs
+// Couleurs principales
 $primary: #0074c7;
 $secondary: #384050;
 $bg-page: #f1f8fc;
@@ -9,7 +7,9 @@ $bg-page: #f1f8fc;
   background: $bg-page;
   padding: 0;
 
-  // Infos + photo + note (fond gris)
+  // —————————————————————————————————————————————————————————————
+  // INFOS + PHOTO + NOTE
+
   .detail-card {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
@@ -23,12 +23,6 @@ $bg-page: #f1f8fc;
     padding: 0 1rem;
   }
   .detail-info {
-    .name {
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: $secondary;
-      margin-bottom: 0.5rem;
-    }
     .stars {
       display: flex;
       align-items: center;
@@ -53,18 +47,14 @@ $bg-page: #f1f8fc;
         }
       }
     }
-    h5 {
-      margin-top: 1.5rem;
-      margin-bottom: 0.75rem;
-      color: $secondary;
-      font-weight: 600;
-    }
   }
+
   .photo img {
     width: 200px;
     height: 200px;
     object-fit: cover;
   }
+
   .leave-note {
     p {
       margin: 0 0 0.25rem;
@@ -83,21 +73,18 @@ $bg-page: #f1f8fc;
     }
   }
 
-  // ------------------------------------------------
-  // FORMULAIRE : FOND BLANC PLEIN ÉCRAN
-  // ------------------------------------------------
+  // —————————————————————————————————————————————————————————————
+  // FORMULAIRE
+
   .form-card-wrapper {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
     background: #fff;
-    padding: 2rem 0; // espace vertical autour du form
+    padding: 2rem 0;
     box-sizing: border-box;
-
-    // si tu veux un arrondi en haut seulement :
     border-radius: 1rem 1rem 0 0;
   }
-
   .form-card {
     max-width: 1200px;
     margin: 0 auto;
@@ -118,10 +105,6 @@ $bg-page: #f1f8fc;
       textarea.form-control {
         resize: vertical;
       }
-      .d-flex {
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
       .btn {
         min-width: 140px;
         border-radius: 0.25rem;
@@ -131,8 +114,12 @@ $bg-page: #f1f8fc;
         border-color: $primary;
       }
       .btn-secondary {
-        background: $secondary;
-        border-color: $secondary;
+        background: #00497c !important;
+        border-color: #00497c !important;
+      }
+      .btn-secondary:hover {
+        background: #cd2c2e !important;
+        border-color: #cd2c2e !important;
       }
       .status {
         color: $primary;

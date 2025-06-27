@@ -1,4 +1,6 @@
-@use "./fonts";
+// —————————————————————————————————————————————————————————————
+//  Police & Couleurs globales + Bootstrap
+
 @use "bootstrap/scss/bootstrap" as bs with (
   $font-family-sans-serif: (
     "Graphik",
@@ -10,7 +12,67 @@
   $secondary: #384050
 );
 
+@use "./fonts";
+
+// On s'assure que html/body/root occupent 100% de la hauteur
 html,
-body {
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   overflow-x: hidden;
+}
+
+// Wrapper de l'app en colonne flex
+#root > .app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// <main> prend tout l'espace restant
+.app-content {
+  flex: 1;
+}
+
+// —————————————————————————————————————————————————————————————
+//  Soulignement épais personnalisable pour h1/h2
+
+$green: #82b864;
+$red: #cd2c2e;
+$blue: #00497c;
+
+@mixin underline($color, $length: 3rem, $thickness: 6px) {
+  position: relative;
+  padding-bottom: $thickness;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: $length;
+    height: $thickness;
+    background: $color;
+    border-radius: $thickness / 2;
+  }
+}
+
+.underline-green {
+  @include underline($green);
+}
+.underline-red {
+  @include underline($red);
+}
+.underline-blue {
+  @include underline($blue);
+}
+
+// —————————————————————————————————————————————————————————————
+//  Titres de section
+
+.section-title {
+  color: #00497c;
+  font-weight: 600;
 }

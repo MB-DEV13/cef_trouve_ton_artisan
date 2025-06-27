@@ -1,4 +1,3 @@
-// src/pages/DetailArtisan.jsx
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
@@ -12,6 +11,8 @@ export default function DetailArtisan() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [userRating, setUserRating] = useState(0);
+
+  // État du formulaire de contact
   const [form, setForm] = useState({
     nom: "",
     email: "",
@@ -19,7 +20,7 @@ export default function DetailArtisan() {
     message: "",
   });
 
-  // 1) Charger l’artisan
+  // Chargement des données de l’artisan
   useEffect(() => {
     api
       .get(`/artisans/${id}`)
@@ -27,11 +28,11 @@ export default function DetailArtisan() {
         setArtisan(res.data);
         setUserRating(res.data.note || 0);
       })
-      .catch(() => {})
+      .catch((err) => console.error("Erreur fetch artisan :", err))
       .finally(() => setLoading(false));
   }, [id]);
 
-  // 2) Envoyer une nouvelle note
+  // Soumettre une nouvelle note et mettre à jour la moyenne
   function handleRate(value) {
     api
       .post(`/artisans/${id}/rating`, { note: value })
@@ -41,24 +42,29 @@ export default function DetailArtisan() {
         }
         setUserRating(value);
       })
-      .catch(() => {});
+      .catch((err) => console.error("Erreur envoi note :", err));
   }
 
-  // 3) Gestion du formulaire
+  // Mise à jour contrôlée des champs du formulaire
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   }
 
+  // Envoi du formulaire de contact
   function handleSubmit(e) {
     e.preventDefault();
     setStatus("Envoi en cours…");
     api
       .post("/contact", { ...form, artisanId: Number(id) })
       .then(() => setStatus("Message envoyé !"))
-      .catch(() => setStatus("Erreur lors de l’envoi."));
+      .catch((err) => {
+        console.error("Erreur contact :", err);
+        setStatus("Erreur lors de l’envoi.");
+      });
   }
 
+  // Affiche un loader si on attend la réponse
   if (loading) return <p className="text-center mt-5">Chargement…</p>;
   if (!artisan) return null;
 
@@ -68,9 +74,11 @@ export default function DetailArtisan() {
       <div className="detail-card">
         <div className="detail-inner container">
           <div className="row g-4">
-            {/* Colonne gauche */}
+            {/* Colonne gauche : nom, étoiles, métadonnées */}
             <div className="col-lg-6 detail-info">
-              <h2 className="name">{artisan.nom}</h2>
+              <h1 className="section-title text-start underline-green mb-3">
+                {artisan.nom}
+              </h1>
               <div className="stars mb-3">
                 {Array.from({ length: 5 }, (_, i) => {
                   const full = i < Math.floor(artisan.note);
@@ -114,7 +122,7 @@ export default function DetailArtisan() {
               <p>{artisan.a_propos}</p>
             </div>
 
-            {/* Colonne droite */}
+            {/* Colonne droite : photo + laisser une note */}
             <div className="col-lg-6 text-center">
               {artisan.photo_profil && (
                 <div className="photo mb-3">
@@ -134,11 +142,13 @@ export default function DetailArtisan() {
         </div>
       </div>
 
-      {/* --- FORMULAIRE PLEIN ÉCRAN --- */}
+      {/* --- FORMULAIRE --- */}
       <div className="form-card-wrapper">
         <div className="form-card">
           <div className="container">
-            <h5>Contactez cet artisan</h5>
+            <h2 className="section-title text-start underline-red mb-3">
+              Contactez cet artisan :
+            </h2>
             <form onSubmit={handleSubmit}>
               {/* Votre nom */}
               <div className="row mb-3 align-items-center">
@@ -195,7 +205,7 @@ export default function DetailArtisan() {
                 </div>
               </div>
 
-              {/* Message */}
+              {/* Votre message */}
               <div className="row mb-4">
                 <label htmlFor="message" className="col-md-4 col-form-label">
                   Votre message :
@@ -214,7 +224,7 @@ export default function DetailArtisan() {
                 </div>
               </div>
 
-              {/* Boutons */}
+              {/* Boutons de navigation et envoie */}
               <div className="row">
                 <div className="col-md-4" />
                 <div className="col-md-8 d-flex justify-content-between">

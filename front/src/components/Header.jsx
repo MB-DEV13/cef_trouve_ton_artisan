@@ -1,8 +1,9 @@
-// src/components/Header.jsx
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../styles/header.scss";
+
+/* Composant Header */
 
 export default function Header() {
   const [categories, setCategories] = useState([]);
@@ -10,13 +11,15 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
+  /* Récupère les catégories au montage */
   useEffect(() => {
     api
       .get("/categories")
-      .then((res) => setCategories(res.data))
-      .catch(console.error);
+      .then((res) => setCategories(res.data || []))
+      .catch((err) => console.error("Erreur chargement catégories :", err));
   }, []);
 
+  /* Soumet la recherche et navigue vers /artisans */
   function handleSubmit(e) {
     e.preventDefault();
     const q = searchTerm.trim();
@@ -26,14 +29,15 @@ export default function Header() {
 
   return (
     <>
+      {/* En-tête fixe */}
       <header className="site-header">
         <div className="header-inner container">
-          {/* logo */}
+          {/* Logo cliquable */}
           <Link to="/" className="logo">
             <img src="/img/Logo.png" alt="Logo Trouve ton artisan" />
           </Link>
 
-          {/* desktop search */}
+          {/* Formulaire de recherche */}
           <form className="search-form desktop" onSubmit={handleSubmit}>
             <input
               type="search"
@@ -44,17 +48,17 @@ export default function Header() {
             <button type="submit">Go</button>
           </form>
 
-          {/* burger */}
+          {/* Bouton burger (mobile) */}
           <button
             className="burger-btn"
             aria-label="Ouvrir le menu"
-            onClick={() => setOpen((o) => !o)}
+            onClick={() => setOpen((prev) => !prev)}
           >
             <i className="bi bi-list" />
           </button>
 
-          {/* nav */}
-          <nav className={`nav-links ${open ? "open" : ""}`}>
+          {/* Liens de navigation */}
+          <nav className={`nav-links${open ? " open" : ""}`}>
             {categories.map((c) => (
               <Link
                 key={c.id}
@@ -69,7 +73,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* recherche mobile */}
+      {/* Recherche mobile affichée sous le header */}
       <div className="mobile-search">
         <form onSubmit={handleSubmit}>
           <input

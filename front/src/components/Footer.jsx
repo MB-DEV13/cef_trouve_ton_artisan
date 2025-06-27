@@ -1,22 +1,24 @@
 import { Link } from "react-router-dom";
 import "../styles/footer.scss";
 
+/* Composant Footer */
+
 export default function Footer() {
-  const logoUrl = "/img/logo-blanc.png"; // à adapter
+  const logoUrl = "/img/logo-blanc.png";
 
   return (
     <footer className="site-footer">
-      {/* bulle blanche arrondie */}
+      {/* Bulle blanche arrondie en haut du footer */}
       <div className="footer-bubble" />
 
-      {/* logo + flèche */}
+      {/* Logo avec flèche */}
       <div className="footer-logo">
         <img src={logoUrl} alt="Logo Trouve ton artisan" />
       </div>
 
-      {/* adresse centrée */}
+      {/* Adresse et téléphone */}
       <div className="footer-main container">
-        <div className="footer-address ">
+        <div className="footer-address">
           <h5>LYON</h5>
           <p>
             101 cours Charlemagne
@@ -32,21 +34,23 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="footer-separator"></div>
+      {/* Séparateur blanc */}
+      <div className="footer-separator" />
 
+      {/* Liens légaux */}
       <div className="footer-links container">
         <ul>
           <li>
-            <Link to="/cookies">Cookies</Link>
+            <Link to="/loading">Cookies</Link>
           </li>
           <li>
-            <Link to="/accessibilite">Accessibilité</Link>
+            <Link to="/loading">Accessibilité</Link>
           </li>
           <li>
-            <Link to="/mentions">Mentions légales</Link>
+            <Link to="/loading">Mentions légales</Link>
           </li>
           <li>
-            <Link to="/donnees">Données personnelles</Link>
+            <Link to="/loading">Données personnelles</Link>
           </li>
         </ul>
       </div>
