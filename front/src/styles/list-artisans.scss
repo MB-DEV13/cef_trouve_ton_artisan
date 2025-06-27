@@ -1,8 +1,12 @@
-// couleurs
-$primary: #0074c7;
-$secondary: #384050;
+// —————————————————————————————————————————————————————————————
+// Variables de couleurs
 
-// wrapper full-width blanc pour filtres & cartes
+$primary: #0074c7; // Couleur principale (bleu)
+$secondary: #384050; // Couleur secondaire (gris foncé)
+
+// —————————————————————————————————————————————————————————————
+// Background full-width pour filtres & cartes
+
 .filters-block,
 .filters-card {
   width: 100%;
@@ -11,24 +15,28 @@ $secondary: #384050;
   margin-right: 0;
 }
 
-// section globale (fond gris)
+// —————————————————————————————————————————————————————————————
+// Section globale
+
 .list-section {
   background: #f1f8fc;
-  padding-bottom: 0; // cards-block descend jusqu’au footer
+  padding-bottom: 0;
 }
 
-// --- FILTRES ---
+// —————————————————————————————————————————————————————————————
+// Styles de la zone de filtres
+
 .filters-card {
   background: white;
   border: none;
   border-radius: 0.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
+  // Organisation en flex des deux lignes de filtres
   .row.g-2.mb-3,
   .row.g-2.align-items-center {
     display: flex;
     gap: 1rem;
-
     > div {
       flex: 1;
       &.col-auto {
@@ -37,41 +45,64 @@ $secondary: #384050;
     }
   }
 
+  // Inputs et selects full-width
   .form-control,
   .form-select {
     width: 100%;
     border: 2px solid $primary;
     border-radius: 0.5rem;
   }
+
+  // Boutons prennent toute la largeur de leur colonne
   .btn {
     width: 100%;
   }
+
+  // Couleurs des boutons
   .btn-primary {
     background: $primary;
     border-color: $primary;
   }
   .btn-secondary {
-    background: $secondary;
-    border-color: $secondary;
+    background: #00497c !important;
+    border-color: #00497c !important;
   }
 }
 
-// --- CARTES ---
-// full-width blanc derrière les cards
+// Hover des boutons
+.btn-primary:hover {
+  background: #82b864 !important;
+  border-color: #82b864 !important;
+}
+.btn-secondary:hover {
+  background: #cd2c2e !important;
+  border-color: #cd2c2e !important;
+}
+
+// —————————————————————————————————————————————————————————————
+// Styles de la grille de cartes
+
 .cards-block {
   position: relative;
-  padding: 2rem 0 0 0;
+  padding: 2rem 0 0;
   margin-bottom: 0;
 
   &::before {
     content: "";
     position: absolute;
     top: 0;
+    bottom: -5rem;
     left: 50%;
     width: 100vw;
-    height: 100%;
     background: white;
     transform: translateX(-50%);
     z-index: -1;
   }
+}
+
+// —————————————————————————————————————————————————————————————
+// Aligne bien la section-title sur le container Bootstrap
+
+.section-title {
+  padding-left: calc(var(--bs-gutter-x) * -0.5) !important;
 }

@@ -1,4 +1,3 @@
-// api/index.js
 require("dotenv").config();
 const express = require("express");
 const { Sequelize } = require("sequelize");
@@ -26,7 +25,6 @@ const sequelize = new Sequelize(
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
-// Rate limiter pour le contact
 const contactLimiter = rateLimit({
   windowMs: 60_000,
   max: 5,
@@ -182,16 +180,27 @@ async function start() {
         }
         const artisanEmail = rows[0].email;
 
-        // 2) Créer le transporter SMTP (Ethereal fallback en dev)
+        // 2) Créer le transporter SMTP
         let transporter;
         if (
           !process.env.SMTP_HOST ||
           !process.env.SMTP_USER ||
           !process.env.SMTP_PASS
         ) {
+          // Fallback Ethereal
           const testAccount = await nodemailer.createTestAccount();
-          transporter = nodemailer.createTransport(testAccount.smtp);
-          console.log("⚠️ Using Ethereal account:", testAccount);
+          transporter = nodemailer.createTransport({
+            ...testAccount.smtp,
+            auth: {
+              user: testAccount.user,
+              pass: testAccount.pass,
+            },
+          });
+          console.log("⚠️ Using Ethereal account:", {
+            user: testAccount.user,
+            pass: testAccount.pass,
+            smtp: testAccount.smtp,
+          });
         } else {
           transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -203,6 +212,9 @@ async function start() {
             },
           });
         }
+
+        // Vérifier la configuration SMTP
+        await transporter.verify();
 
         // 3) Envoi du mail à l'artisan
         const info = await transporter.sendMail({

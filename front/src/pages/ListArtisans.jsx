@@ -1,9 +1,10 @@
-// src/pages/ListArtisans.jsx
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import ArtisanCard from "../components/ArtisanCard";
 import "../styles/list-artisans.scss";
+
+// Page de liste des artisans avec filtres.
 
 export default function ListArtisans() {
   const [artisans, setArtisans] = useState([]);
@@ -15,21 +16,26 @@ export default function ListArtisans() {
     categorieId: "",
     ville: "",
   });
+  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
-  const fetchArtisans = useCallback((f) => {
-    api
-      .get("/artisans", { params: f })
-      .then((res) => setArtisans(Array.isArray(res.data) ? res.data : []))
-      .catch(() => setArtisans([]));
+  const fetchArtisans = useCallback(async (params) => {
+    try {
+      const response = await api.get("/artisans", { params });
+      setArtisans(Array.isArray(response.data) ? response.data : []);
+    } catch (err) {
+      console.error("Erreur chargement artisans :", err);
+      setArtisans([]);
+    }
   }, []);
 
   useEffect(() => {
     api
       .get("/categories")
-      .then((res) => setCategoriesList(res.data))
-      .catch(() => {});
+      .then((res) => setCategoriesList(res.data || []))
+      .catch((err) => console.error("Erreur catégories :", err));
+
     api
       .get("/artisans")
       .then((res) => {
@@ -38,7 +44,7 @@ export default function ListArtisans() {
         ).sort();
         setLocationsList(villes);
       })
-      .catch(() => {});
+      .catch((err) => console.error("Erreur villes :", err));
 
     const qs = new URLSearchParams(location.search);
     const initial = {
@@ -53,10 +59,21 @@ export default function ListArtisans() {
 
   function handleFilterChange(e) {
     const { name, value } = e.target;
-    setFilters((f) => ({ ...f, [name]: value }));
+    setFilters((prev) => ({ ...prev, [name]: value }));
   }
 
   function handleSearch() {
+    // Si tous les filtres sont vides, on affiche un message
+    if (
+      !filters.search &&
+      !filters.noteMin &&
+      !filters.categorieId &&
+      !filters.ville
+    ) {
+      setErrorMsg("Veuillez remplir au moins un critère de recherche.");
+      return;
+    }
+    setErrorMsg("");
     const query = new URLSearchParams(filters).toString();
     navigate(`/artisans?${query}`);
     fetchArtisans(filters);
@@ -66,7 +83,6 @@ export default function ListArtisans() {
     <>
       {/* ---- FILTRES ---- */}
       <div className="filters-card mb-5 p-4">
-        {/* Ligne 1 */}
         <div className="row g-2 mb-3">
           <div className="col-md-4">
             <input
@@ -87,7 +103,7 @@ export default function ListArtisans() {
               value={filters.noteMin}
               onChange={handleFilterChange}
               className="form-control"
-              placeholder="Par note"
+              placeholder="Note ≥"
             />
           </div>
           <div className="col-md-4">
@@ -97,7 +113,7 @@ export default function ListArtisans() {
               onChange={handleFilterChange}
               className="form-select"
             >
-              <option value="">Par spécialité</option>
+              <option value="">Toutes spécialités</option>
               {categoriesList.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.nom}
@@ -107,7 +123,6 @@ export default function ListArtisans() {
           </div>
         </div>
 
-        {/* Ligne 2 */}
         <div className="row g-2 align-items-center">
           <div className="col-md-4">
             <select
@@ -116,7 +131,7 @@ export default function ListArtisans() {
               onChange={handleFilterChange}
               className="form-select"
             >
-              <option value="">Par localisation</option>
+              <option value="">Toutes villes</option>
               {locationsList.map((v) => (
                 <option key={v} value={v}>
                   {v}
@@ -125,13 +140,17 @@ export default function ListArtisans() {
             </select>
           </div>
           <div className="col-auto">
-            <button className="btn btn-primary" onClick={handleSearch}>
-              Recherche un artisan&nbsp;&nbsp;{" "}
-              <i className="bi bi-search ms-1" />
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSearch}
+            >
+              <i className="bi bi-search me-1" /> Rechercher
             </button>
           </div>
           <div className="col-auto">
             <button
+              type="button"
               className="btn btn-secondary"
               onClick={() => {
                 setFilters({
@@ -140,20 +159,25 @@ export default function ListArtisans() {
                   categorieId: "",
                   ville: "",
                 });
+                setErrorMsg("");
                 navigate("/artisans");
                 fetchArtisans({});
               }}
             >
-              <i className="bi bi-arrow-counterclockwise me-1" />
-              &nbsp;&nbsp;Afficher tous les artisans
+              <i className="bi bi-arrow-counterclockwise me-1" /> Tout afficher
             </button>
           </div>
         </div>
+
+        {/* Affichage du message d’erreur si nécessaire */}
+        {errorMsg && <p className="text-danger mt-2">{errorMsg}</p>}
       </div>
 
       {/* ---- CARDS ---- */}
       <div className="cards-block row g-4 py-4">
-        <h2 className="section-title mb-4">Résultats de recherche :</h2>
+        <h2 className="section-title text-start underline-green">
+          Résultats de la recherche
+        </h2>
         {artisans.map((a) => (
           <ArtisanCard
             key={a.id}

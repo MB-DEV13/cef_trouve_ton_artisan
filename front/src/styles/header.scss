@@ -1,12 +1,13 @@
-// src/styles/header.scss
-
 $primary: #0074c7;
 $secondary: #384050;
 $bg: #fff;
 $shadow: rgba(0, 0, 0, 0.1);
 
+// —————————————————————————————————————————————————————————————
+// Styles du header
+
 .site-header {
-  position: relative; // ← nécessaire pour les nav-links en absolute
+  position: relative;
   background: $bg;
   box-shadow: 0 2px 4px $shadow;
 
@@ -25,13 +26,17 @@ $shadow: rgba(0, 0, 0, 0.1);
     row-gap: 0.5rem;
   }
 
+  // Logo à gauche
   .logo {
     grid-area: logo;
     img {
-      height: 60px;
+      height: 70px;
       display: block;
     }
   }
+
+  // —————————————————————————————————————————————————————————————
+  // Recherche desktop
 
   .search-form {
     grid-area: search;
@@ -53,8 +58,13 @@ $shadow: rgba(0, 0, 0, 0.1);
       padding: 0.25rem 0.75rem;
       border-radius: 0.25rem;
       cursor: pointer;
+      &:hover {
+        background: #82b864;
+        border-color: #82b864;
+      }
     }
 
+    // Caché en mobile
     &.desktop {
       @media (max-width: 1000px) {
         display: none !important;
@@ -62,9 +72,12 @@ $shadow: rgba(0, 0, 0, 0.1);
     }
   }
 
+  // —————————————————————————————————————————————————————————————
+  // Burger mobile
+
   .burger-btn {
-    grid-area: burger; // ← passe de "nav" à "burger"
-    align-self: center; // ← centre verticalement
+    grid-area: burger;
+    align-self: center;
     justify-self: end;
     display: none;
     background: none;
@@ -74,17 +87,20 @@ $shadow: rgba(0, 0, 0, 0.1);
     cursor: pointer;
     z-index: 200;
 
+    // Affiche en dessous de 1000px
     @media (max-width: 1000px) {
       display: block !important;
     }
   }
 
+  // Liens de nav
   .nav-links {
     grid-area: nav;
     display: flex;
     justify-self: end;
     gap: 1rem;
     z-index: 100;
+    padding-top: 0.5rem;
 
     .nav-link {
       color: $secondary;
@@ -95,9 +111,12 @@ $shadow: rgba(0, 0, 0, 0.1);
       }
     }
 
+    // —————————————————————————————————————————————————————————————
+    // Menu mobile
+
     @media (max-width: 1000px) {
-      position: absolute; // ← positionnement direct
-      top: 3.5rem; // ← juste sous le header
+      position: absolute;
+      top: 3.5rem;
       right: 1.5rem;
       background: $bg;
       flex-direction: column;
@@ -113,7 +132,9 @@ $shadow: rgba(0, 0, 0, 0.1);
   }
 }
 
-/* recherche mobile */
+// —————————————————————————————————————————————————————————————
+// Styles de la recherche mobile (sous le header)
+
 .mobile-search {
   display: none;
   max-width: 1200px;
@@ -144,19 +165,19 @@ $shadow: rgba(0, 0, 0, 0.1);
   }
 }
 
-/* RÉORDONNEMENT EN MOBILE (<1000px) */
+// —————————————————————————————————————————————————————————————
+// Réordonnancement en mobile (<1000px)
+
 @media (max-width: 1000px) {
-  .site-header {
-    .header-inner {
-      grid-template-columns: auto auto;
-      grid-template-rows:
-        auto /* logo + burger */
-        auto /* search */
-        auto; /* nav */
-      grid-template-areas:
-        "logo burger"
-        "search search"
-        "nav    nav";
-    }
+  .site-header .header-inner {
+    grid-template-columns: auto auto;
+    grid-template-rows:
+      auto
+      auto
+      auto;
+    grid-template-areas:
+      "logo burger"
+      "search search"
+      "nav    nav";
   }
 }
