@@ -32,10 +32,9 @@
    ```
 
 4. Installez la base de donnée :
-   ```bash
-   sur MYSQL importer "1_create_schema.sql" qui va créer la BDD et la structure
-   puis importer "2_seed_data.sql" qui contient les données
-   ```
+
+   - sur MYSQL importer "1_create_schema.sql" qui va créer la BDD et la structure
+   - puis importer "2_seed_data.sql" qui contient les données
 
 ## Configuration
 
