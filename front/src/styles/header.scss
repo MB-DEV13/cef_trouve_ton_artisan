@@ -138,7 +138,7 @@ $shadow: rgba(0, 0, 0, 0.1);
 .mobile-search {
   display: none;
   max-width: 1200px;
-  margin: 0.5rem auto 1rem;
+  margin: 1.5rem auto 0rem;
   padding: 0 1rem;
 
   form {
@@ -149,7 +149,7 @@ $shadow: rgba(0, 0, 0, 0.1);
     flex: 1;
     border: 2px solid $primary;
     border-radius: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 5rem;
   }
   button {
     background: $primary;
