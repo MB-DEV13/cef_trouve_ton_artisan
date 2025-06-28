@@ -1,3 +1,5 @@
+// src/styles/detail-artisan.scss
+
 // Couleurs principales
 $primary: #0074c7;
 $secondary: #384050;
@@ -17,12 +19,18 @@ $bg-page: #f1f8fc;
     background: transparent;
     padding: 2rem 0 0;
   }
+
   .detail-inner {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
   }
+
   .detail-info {
+    h1.section-title {
+      margin-bottom: 1rem;
+    }
+
     .stars {
       display: flex;
       align-items: center;
@@ -36,9 +44,9 @@ $bg-page: #f1f8fc;
         font-weight: 500;
       }
     }
+
     .meta {
       color: $secondary;
-      font-size: 0.95rem;
       margin-bottom: 1rem;
       a {
         color: $primary;
@@ -85,16 +93,11 @@ $bg-page: #f1f8fc;
     box-sizing: border-box;
     border-radius: 1rem 1rem 0 0;
   }
+
   .form-card {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
-
-    h5 {
-      color: $secondary;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
 
     form {
       .form-control {
@@ -126,6 +129,61 @@ $bg-page: #f1f8fc;
         margin-top: 1rem;
         font-style: italic;
       }
+
+      // gap entre les boutons uniquement en mobile
+      @media (max-width: 767px) {
+        .d-flex {
+          gap: 2rem;
+        }
+      }
+    }
+  }
+
+  // —————————————————————————————————————————————————————————————
+  // ADAPTATION MOBILE (<768px)
+
+  @media (max-width: 767px) {
+    // Inverse l’ordre des colonnes et centre tout
+    .detail-card .row.g-4 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    // Colonne de droite (photo + note) passe en premier
+    .detail-card .col-md-6.text-center {
+      order: 1;
+      margin-bottom: 2rem;
+    }
+
+    // Colonne des infos se centre et passe en second
+    .detail-info {
+      order: 2;
+      text-align: center;
+
+      > * {
+        max-width: 90%;
+        margin: 0 auto 1rem;
+      }
+    }
+
+    // Centrer les étoiles
+    .detail-info .stars {
+      justify-content: center;
+    }
+
+    // Centrer le titre H1 et son underline
+    .detail-info h1.section-title {
+      text-align: center !important;
+      &::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+      }
+    }
+    .filters-card .btn-primary {
+      width: auto; // désactive le width:100% par défaut
+      padding: 0.5rem 1rem; // un padding plus compact
+      white-space: nowrap; // évite le retour à la ligne du texte
     }
   }
 }

@@ -11,8 +11,6 @@ export default function DetailArtisan() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [userRating, setUserRating] = useState(0);
-
-  // État du formulaire de contact
   const [form, setForm] = useState({
     nom: "",
     email: "",
@@ -20,7 +18,7 @@ export default function DetailArtisan() {
     message: "",
   });
 
-  // Chargement des données de l’artisan
+  // 1) Charger l’artisan
   useEffect(() => {
     api
       .get(`/artisans/${id}`)
@@ -28,11 +26,11 @@ export default function DetailArtisan() {
         setArtisan(res.data);
         setUserRating(res.data.note || 0);
       })
-      .catch((err) => console.error("Erreur fetch artisan :", err))
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, [id]);
 
-  // Soumettre une nouvelle note et mettre à jour la moyenne
+  // 2) Envoyer une nouvelle note
   function handleRate(value) {
     api
       .post(`/artisans/${id}/rating`, { note: value })
@@ -42,29 +40,23 @@ export default function DetailArtisan() {
         }
         setUserRating(value);
       })
-      .catch((err) => console.error("Erreur envoi note :", err));
+      .catch(() => {});
   }
 
-  // Mise à jour contrôlée des champs du formulaire
+  // 3) Gestion du formulaire
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   }
-
-  // Envoi du formulaire de contact
   function handleSubmit(e) {
     e.preventDefault();
     setStatus("Envoi en cours…");
     api
       .post("/contact", { ...form, artisanId: Number(id) })
       .then(() => setStatus("Message envoyé !"))
-      .catch((err) => {
-        console.error("Erreur contact :", err);
-        setStatus("Erreur lors de l’envoi.");
-      });
+      .catch(() => setStatus("Erreur lors de l’envoi."));
   }
 
-  // Affiche un loader si on attend la réponse
   if (loading) return <p className="text-center mt-5">Chargement…</p>;
   if (!artisan) return null;
 
@@ -75,7 +67,7 @@ export default function DetailArtisan() {
         <div className="detail-inner container">
           <div className="row g-4">
             {/* Colonne gauche : nom, étoiles, métadonnées */}
-            <div className="col-lg-6 detail-info">
+            <div className="col-md-6 col-lg-6 detail-info">
               <h1 className="section-title text-start underline-green mb-3">
                 {artisan.nom}
               </h1>
@@ -100,30 +92,30 @@ export default function DetailArtisan() {
                   {(Math.round(artisan.note * 10) / 10).toFixed(1)}
                 </span>
               </div>
-              <p className="meta">
-                <strong>Spécialité :</strong> {artisan.specialite}
-              </p>
-              <p className="meta">
-                <strong>Localisation :</strong> {artisan.ville}
-              </p>
+              <div className="meta">
+                <h5>Spécialité :</h5> <p>{artisan.specialite}</p>
+              </div>
+              <div className="meta">
+                <h5>Localisation :</h5> <p>{artisan.ville}</p>
+              </div>
               {artisan.site_web && (
-                <p className="meta">
-                  <strong>Site web :</strong>{" "}
+                <div className="meta">
+                  <h5>Site web :</h5>{" "}
                   <a
                     href={artisan.site_web}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {artisan.site_web}
+                    <p>{artisan.site_web}</p>
                   </a>
-                </p>
+                </div>
               )}
               <h5>À propos</h5>
               <p>{artisan.a_propos}</p>
             </div>
 
-            {/* Colonne droite : photo + laisser une note */}
-            <div className="col-lg-6 text-center">
+            {/* Colonne droite : photo + laisser une note (aussi dès md) */}
+            <div className="col-md-6 col-lg-6 text-center">
               {artisan.photo_profil && (
                 <div className="photo mb-3">
                   <img
@@ -142,7 +134,7 @@ export default function DetailArtisan() {
         </div>
       </div>
 
-      {/* --- FORMULAIRE --- */}
+      {/* --- FORMULAIRE PLEIN ÉCRAN --- */}
       <div className="form-card-wrapper">
         <div className="form-card">
           <div className="container">
@@ -167,7 +159,6 @@ export default function DetailArtisan() {
                   />
                 </div>
               </div>
-
               {/* Votre email */}
               <div className="row mb-3 align-items-center">
                 <label htmlFor="email" className="col-md-4 col-form-label">
@@ -186,7 +177,6 @@ export default function DetailArtisan() {
                   />
                 </div>
               </div>
-
               {/* Objet */}
               <div className="row mb-3 align-items-center">
                 <label htmlFor="objet" className="col-md-4 col-form-label">
@@ -204,7 +194,6 @@ export default function DetailArtisan() {
                   />
                 </div>
               </div>
-
               {/* Votre message */}
               <div className="row mb-4">
                 <label htmlFor="message" className="col-md-4 col-form-label">
@@ -223,8 +212,7 @@ export default function DetailArtisan() {
                   />
                 </div>
               </div>
-
-              {/* Boutons de navigation et envoie */}
+              {/* Boutons */}
               <div className="row">
                 <div className="col-md-4" />
                 <div className="col-md-8 d-flex justify-content-between">
@@ -240,7 +228,6 @@ export default function DetailArtisan() {
                   </button>
                 </div>
               </div>
-
               {status && <p className="status mt-3">{status}</p>}
             </form>
           </div>
