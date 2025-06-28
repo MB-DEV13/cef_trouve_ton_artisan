@@ -1,5 +1,9 @@
 -- create_schema.sql
 
+-- Création de la base
+CREATE DATABASE trouve_ton_artisan DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE trouve_ton_artisan;
+
 -- Table des catégories
 CREATE TABLE categorie (
   id INT AUTO_INCREMENT PRIMARY KEY,
