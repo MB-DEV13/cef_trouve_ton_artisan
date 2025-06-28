@@ -6,7 +6,7 @@
 
 ## Prérequis
 
-- Node.js (>=14)
+- Node.js
 - npm ou yarn
 - Une base de données MySQL
 - Variables d’environnement configurées dans un fichier `.env`
@@ -101,7 +101,7 @@ ton-artisan/
 │  ├─ src/
 │  │  ├─ components/
 │  │  ├─ pages/
-      ├─ services/
+│  │  ├─ services/
 │  │  └─ styles/
 │  └─ vite.config.js
 ├─ README.md
