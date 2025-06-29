@@ -30,7 +30,14 @@ const sequelize = new Sequelize(
 );
 
 // 2. Middlewares
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://cef-trouve-ton-artisan.onrender.com",
+    ],
+  })
+);
 app.use(express.json());
 
 const contactLimiter = rateLimit({
