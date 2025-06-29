@@ -26,6 +26,7 @@ INSERT INTO specialite (nom, categorie_id) VALUES
   ('Webdesign', (SELECT id FROM categorie WHERE nom='Services'));
 
 -- Insertion des artisans
+
 INSERT INTO `artisan` (`id`, `nom`, `note`, `photo_profil`, `ville`, `email`, `site_web`, `a_propos`, `top`, `specialite_id`) VALUES
 (1, 'Boucherie Dumont', 4.5, 'https://cdn.pixabay.com/photo/2023/10/23/15/24/ai-generated-8336369_1280.jpg', 'Lyon', 'boucherie.dumond@gmail.com', '', 'Lorem ipsum dolor sit amet...', 0, 1),
 (2, 'Au pain chaud', 4.8, 'https://cdn.pixabay.com/photo/2017/10/24/19/55/bread-2885965_1280.jpg', 'Montélimar', 'aupainchaud@hotmail.com', '', 'Lorem ipsum dolor sit amet...', 1, 2),
@@ -44,3 +45,4 @@ INSERT INTO `artisan` (`id`, `nom`, `note`, `photo_profil`, `ville`, `email`, `s
 (15, 'Le monde des fleurs', 4.6, '', 'Annonay', 'contact@le-monde-des-fleurs-annonay.fr', 'https://le-monde-des-fleurs-annonay.fr', 'Lorem ipsum dolor sit amet...', 0, 13),
 (16, 'Valérie Laderoute', 4.5, '', 'Valence', 'v-laredoute@gmail.com', '', 'Lorem ipsum dolor sit amet...', 0, 14),
 (17, 'CM Graphisme', 4.4, '', 'Valence', 'contact@cm-graphisme.com', 'https://cm-graphisme.com', 'Lorem ipsum dolor sit amet...', 0, 15);
+
