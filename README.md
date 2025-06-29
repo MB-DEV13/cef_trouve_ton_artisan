@@ -6,7 +6,7 @@
 
 ## Prérequis
 
-- Node.js (>=14)
+- Node.js
 - npm ou yarn
 - Une base de données MySQL
 - Variables d’environnement configurées dans un fichier `.env`
@@ -16,7 +16,7 @@
 1. Clonez le dépôt :
    ```bash
    git clone https://github.com/MB-DEV13/cef_trouve_ton_artisan.git
-   cd ton-artisan/front
+   cd front
    ```
 2. Installez les dépendances front :
    ```bash
@@ -32,10 +32,9 @@
    ```
 
 4. Installez la base de donnée :
-   ```bash
-   sur MYSQL importer "1_create_schema.sql" qui va créer la BDD et la structure
-   puis importer "2_seed_data.sql" qui contient les données
-   ```
+
+   - sur MYSQL importer "1_create_schema.sql" qui va créer la BDD et la structure
+   - puis importer "2_seed_data.sql" qui contient les données
 
 ## Configuration
 
