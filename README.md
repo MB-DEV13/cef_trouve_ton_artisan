@@ -16,7 +16,7 @@
 1. Clonez le dépôt :
    ```bash
    git clone https://github.com/MB-DEV13/cef_trouve_ton_artisan.git
-   cd ton-artisan/front
+   cd front
    ```
 2. Installez les dépendances front :
    ```bash
